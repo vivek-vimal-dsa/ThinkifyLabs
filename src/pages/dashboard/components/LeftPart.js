@@ -44,8 +44,11 @@ const LeftPart = (props) => {
   const searchCheck = (data) => {
     const currentData = [];
     data?.map((item) => {
-      item?.title?.includes(searchInputValue) && currentData.push(item);
+      (item?.title?.includes(searchInputValue) ||
+        item?.subTitle?.includes(searchInputValue)) &&
+        currentData.push(item);
     });
+
     return currentData;
   };
 
@@ -55,9 +58,9 @@ const LeftPart = (props) => {
     setSearchFilteredData(filterData);
   };
 
-  const searchFilter = () => {
+  const searchFilter = (data) => {
     setSearchFilteredData(() => {
-      return searchCheck(searchFilteredData);
+      return searchCheck(data);
     });
   };
 
@@ -78,8 +81,10 @@ const LeftPart = (props) => {
   }, [isActive]);
 
   useEffect(() => {
-    if (searchInputValue) {
-      searchFilter();
+    if (searchInputValue && isActive) {
+      filterItems(true);
+    } else if (searchInputValue) {
+      searchFilter(creativeList);
     } else if (!searchInputValue && isActive) {
       filterItems();
     } else if (!searchInputValue) {
