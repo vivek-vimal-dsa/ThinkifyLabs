@@ -9,7 +9,7 @@ import Selector from "../Selector";
 
 const StyledDrawer = styled.div`
   border-left: 3px solid #000;
-  width: 35%;
+  width: 35% !important;
   min-height: calc(100vh - 6rem);
   padding: 3rem;
   position: sticky;

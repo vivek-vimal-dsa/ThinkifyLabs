@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
 export const StyledLeft = styled.div`
-  margin: 3rem 0 1rem 0;
+  margin: 3rem 1rem 1rem 3rem;
   overflow-y: auto;
+  overflow-x: hidden;
   height: calc(100vh - 4rem);
   width: 100%;
 

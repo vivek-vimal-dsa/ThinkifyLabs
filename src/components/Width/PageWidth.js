@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const StyledWidth = styled.section`
   width: 100%;
-  padding: 0 0 0 5%;
+  //padding: 0 0 0 5%;
   height: ${(props) => (props.height ? props.height : "auto")};
   display: flex;
   align-items: ${(props) => (props.align ? props.align : "center")};

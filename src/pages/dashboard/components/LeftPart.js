@@ -41,34 +41,39 @@ const LeftPart = (props) => {
     setSearchInputValue(input.target.value);
   };
 
-  const filterItems = (data) => {
-    const filterData = data?.filter((item) => item?.bg === isActive);
+  const searchCheck = (data) => {
+    const currentData = [];
+    data?.map((item) => {
+      item?.title?.includes(searchInputValue) && currentData.push(item);
+    });
+    return currentData;
+  };
+
+  const filterItems = (selected) => {
+    let filterData = creativeList?.filter((item) => item?.bg === isActive);
+    if (selected) filterData = searchCheck(filterData);
     setSearchFilteredData(filterData);
   };
 
   const searchFilter = () => {
     setSearchFilteredData(() => {
-      const currentData = [];
-      searchFilteredData?.map((item) => {
-        item?.title?.includes(searchInputValue) && currentData.push(item);
-      });
-      return currentData;
+      return searchCheck(searchFilteredData);
     });
   };
 
   useEffect(() => {
     if (creativeList?.length) {
       setSearchFilteredData(creativeList);
-      if (isActive) {
-        filterItems(creativeList);
-      }
     }
   }, [creativeList]);
 
   useEffect(() => {
-    setSearchInputValue("");
     if (creativeList?.length) {
-      filterItems(creativeList);
+      if (searchInputValue) {
+        filterItems(true);
+      } else {
+        filterItems();
+      }
     }
   }, [isActive]);
 
@@ -76,14 +81,14 @@ const LeftPart = (props) => {
     if (searchInputValue) {
       searchFilter();
     } else if (!searchInputValue && isActive) {
-      filterItems(creativeList);
+      filterItems();
     } else if (!searchInputValue) {
       setSearchFilteredData(creativeList);
     }
   }, [searchInputValue]);
 
   return (
-    <StyledLeft>
+    <StyledLeft isDrawerOpen={isDrawerOpen}>
       <Heading Text="Filter By:" />
       <Flex width="35rem" jc="space-between" align="flex-start" m="2rem 0 0 0">
         <div>
@@ -106,7 +111,6 @@ const LeftPart = (props) => {
             style={{ margin: "1rem 0 0 0" }}
             onChange={onSearch}
             value={searchInputValue}
-            disabled={!creativeList.length}
           />
         </div>
       </Flex>
